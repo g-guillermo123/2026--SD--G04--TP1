@@ -4,9 +4,8 @@ Proyecto base para la Clase sobre Sockets de Sistemas Distribuidos.
 
 ## Integrantes
 
-- Apellidos y Nombres 1
-- Apellidos y Nombres 2
-- Apellidos y Nombres 3
+- Gallo, Guillermo Ariel
+- Pedernera Theisen, Nahuel Thomas
 
 ## Ejecución
 
@@ -30,11 +29,11 @@ docker-compose up --build
 
 - [ ] Servidor TCP concurrente
 - [ ] Protocolo JSON
-- [ ] Registro de clientes con sync.RWMutex
-- [ ] Broadcast a todos los clientes
+- [x] Registro de clientes con sync.RWMutex
+- [x] Broadcast a todos los clientes
 - [ ] Cliente interactivo (stdin + recepción paralela)
 - [ ] Docker + docker-compose
-- [ ] Bonus: descubrimiento UDP
+- [x] Bonus: descubrimiento UDP
 
 ## Captura de ejecución
 
