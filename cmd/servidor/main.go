@@ -41,7 +41,7 @@ func main() {
 		}
 
 		// TODO 10: en lugar de llamar directamente a manejarCliente,
-		// lanzar una goroutine para atender la conexión concurrentemente
+		// lanzar una goroutine para atender la conexión concurrentemente .-HECHO
 		go manejarCliente(conexion, registroClientes) // Lanzar una goroutine para manejar la conexión
 
 		// manejarCliente(conexion, registroClientes) no utilizo esta llamada al manejador
@@ -52,7 +52,7 @@ func manejarCliente(conexion net.Conn, registroClientes *registro.RegistroClient
 	defer conexion.Close()
 
 	// TODO 11: leer el primer mensaje de identificación del cliente
-	// Usar protocolo.Decodificar para obtener el nombre del emisor
+	// Usar protocolo.Decodificar para obtener el nombre del emisor .-HECHO
 	msgInicial, err := protocolo.Decodificar(conexion)
 	if err != nil {
 		return // Si no se identifica, cerrar
@@ -92,6 +92,7 @@ func manejarCliente(conexion net.Conn, registroClientes *registro.RegistroClient
 }
 
 // difundirMensaje envía un mensaje a todos los clientes excepto al emisor indicado
+// TODO 16 .-HECHO
 func difundirMensaje(r *registro.RegistroClientes, msg protocolo.Mensaje, exceptoEmisor string) {
 	// Obtener la slice de las conexiones y los nombres de los clientes registrados
 	conexiones := r.ObtenerConexiones()
@@ -111,6 +112,7 @@ func difundirMensaje(r *registro.RegistroClientes, msg protocolo.Mensaje, except
 }
 
 // iniciarDescubrimientoUDP inicia un servidor UDP para responder a solicitudes de descubrimiento
+// (bonus)
 func iniciarDescubrimientoUDP(puerto string) {
 	addr, _ := net.ResolveUDPAddr("udp", ":9999") // Puerto estándar de descubrimiento
 	conn, _ := net.ListenUDP("udp", addr)
@@ -119,11 +121,7 @@ func iniciarDescubrimientoUDP(puerto string) {
 	for {
 		buf := make([]byte, 1024)
 		_, remoteAddr, _ := conn.ReadFromUDP(buf)
-		// Respondemos con el puerto TCP en el que estamos escuchando, el 4000
+		// La respuesta es el puerto en el que el servidor TCP está escuchando, el 4000
 		conn.WriteToUDP([]byte(puerto), remoteAddr)
 	}
-}
-
-func manejarSolicitudUDP(conn *net.UDPConn, addr *net.UDPAddr, puerto string) {
-
 }
