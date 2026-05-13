@@ -73,3 +73,17 @@ func (r *RegistroClientes) Nombres() []string {
 	r.mu.RUnlock() // Desbloqueo después de copiar
 	return nombres
 }
+
+// ObtenerClientes devuelve una copia del mapa de clientes activos
+func (r *RegistroClientes) ObtenerClientes() map[string]net.Conn {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	copia := make(map[string]net.Conn)
+
+	for nombre, conexion := range r.clientes {
+		copia[nombre] = conexion
+	}
+
+	return copia
+}

@@ -94,19 +94,16 @@ func manejarCliente(conexion net.Conn, registroClientes *registro.RegistroClient
 // difundirMensaje envía un mensaje a todos los clientes excepto al emisor indicado
 // TODO 16 .-HECHO
 func difundirMensaje(r *registro.RegistroClientes, msg protocolo.Mensaje, exceptoEmisor string) {
-	// Obtener la slice de las conexiones y los nombres de los clientes registrados
-	conexiones := r.ObtenerConexiones()
-	nombres := r.Nombres()
+	clientes := r.ObtenerClientes()
 
-	// Iteración
-	for i, conn := range conexiones {
-		// No se envía el mensaje al emisor
-		if nombres[i] != exceptoEmisor {
-			// Enviar el mensaje usando protocolo.Codificar
-			err := protocolo.Codificar(conn, msg)
-			if err != nil {
-				log.Printf("Error enviando a %s: %v", nombres[i], err)
-			}
+	for nombre, conn := range clientes {
+		if nombre == exceptoEmisor {
+			continue
+		}
+
+		err := protocolo.Codificar(conn, msg)
+		if err != nil {
+			log.Printf("Error enviando a %s: %v", nombre, err)
 		}
 	}
 }
